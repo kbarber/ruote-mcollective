@@ -26,17 +26,19 @@ module Ruote
       # Make mc request
       nodes_responded = []
       args = workitem.fields['mc_args'] || {}
-      client.send(workitem.fields['mc_action'], args) do |resp|
-        begin
-          nodes_responded << resp[:senderid]
-        rescue Exception => e
-          puts "Exception on mc call"
-          exit
-        end
-      end
+
+      # result would be an array of results with error codes
+      # and error messages set, the framework does exception
+      # handleing etc
+      result = client.send(workitem.fields['mc_action'], args)
+
+      # can also figure out fail counts, ok counts
+      # nodes that responded and all times the last
+      # request took etc see lib/mcollective/rpc/stats.rb
+      nodes_responded = client.stats.noresponsefrom
 
       # Set response
-      workitem.set_field('mc_discover', client.discover) 
+      workitem.set_field('mc_discover', client.discover)
 
       reply_to_engine(workitem)
     end
