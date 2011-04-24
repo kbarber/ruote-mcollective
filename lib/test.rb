@@ -23,8 +23,7 @@ end
 engine.register_participant :mc_participant, Ruote::McParticipant
 
 engine.register_participant :show_results do |workitem|
-  pp workitem
-  puts "Result: #{workitem.fields['mc_results']}"
+  puts "Result: #{workitem.fields['mc_discover'].join(" ")}"
 end
 
 pdef = Ruote.process_definition :name => 'test' do

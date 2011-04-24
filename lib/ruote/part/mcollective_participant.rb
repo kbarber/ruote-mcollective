@@ -14,14 +14,9 @@ module Ruote
 
     def consume(workitem)
 
-      wi = workitem.to_h
-
-      require 'pp'
-      pp wi
-
       options = {:verbose    => false,
-                 :timeout    => 5,
-                 :disctimeout=> 5,
+                 :timeout    => 2,
+                 :disctimeout=> 2,
                  :config     => "/etc/mcollective/client.cfg",
                  :filter     => MCollective::Util.empty_filter}
 
@@ -41,7 +36,7 @@ module Ruote
       end
 
       # Set response
-      workitem.set_field('mc_nodes', client.discover) 
+      workitem.set_field('mc_discover', client.discover) 
 
       reply_to_engine(workitem)
     end
