@@ -33,9 +33,9 @@ module Ruote
       result = client.send(workitem.fields['mc_action'], args)
 
       # can also figure out fail counts, ok counts
-      # nodes that responded and all times the last
+      # nodes that didnt respond and all times the last
       # request took etc see lib/mcollective/rpc/stats.rb
-      nodes_responded = client.stats.noresponsefrom
+      nodes_responded = client.stats.responsesfrom
 
       # Set response
       workitem.set_field('mc_discover', client.discover)
